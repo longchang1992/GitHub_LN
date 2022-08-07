@@ -137,7 +137,14 @@ public class Model extends Observable {
      *  Empty spaces are stored as null.
      * */
     public static boolean emptySpaceExists(Board b) {
-        // TODO: Fill in this function.
+        /** TODO: Fill in this function.*/
+        for (int i = 0; i< b.size(); i += 1) {
+            for (int j = 0; j< b.size(); j+=1) {
+                if (b.tile(i, j) == null) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -147,7 +154,17 @@ public class Model extends Observable {
      * given a Tile object t, we get its value with t.value().
      */
     public static boolean maxTileExists(Board b) {
-        // TODO: Fill in this function.
+        /** TODO: Fill in this function.*/
+        for (int i = 0; i<b.size();i+=1) {
+            for (int j = 0; j < b.size(); j += 1) {
+                if (b.tile(i, j) == null) {
+                    continue;
+                }
+                if (b.tile(i, j).value() == MAX_PIECE) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -158,8 +175,48 @@ public class Model extends Observable {
      * 2. There are two adjacent tiles with the same value.
      */
     public static boolean atLeastOneMoveExists(Board b) {
-        // TODO: Fill in this function.
+        /** TODO: Fill in this function.*/
+
+        for (int i = 0; i < b.size(); i += 1) {
+            for (int j = 0; j < b.size(); j += 1) {
+                if (b.tile(i, j) == null) {
+                    return true;
+                }
+
+                if (ValidIndex(b, i-1, j)) {
+                    if (b.tile(i, j).value() == b.tile(i-1, j).value()) {
+                        return true;
+                    }
+                }
+
+                if (ValidIndex(b, i+1, j)) {
+                    if (b.tile(i, j).value() == b.tile(i+1, j).value()) {
+                        return true;
+                    }
+                }
+
+                if (ValidIndex(b, i, j-1)) {
+                    if (b.tile(i, j).value() == b.tile(i, j-1).value()) {
+                        return true;
+                    }
+                }
+
+                if (ValidIndex(b, i, j+1)) {
+                    if (b.tile(i, j).value() == b.tile(i, j+1).value()) {
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
+    }
+
+    /** returns true if index is valid and false if invalid*/
+    public static boolean ValidIndex(Board b, int i, int j) {
+        if (i < 0 || i >= b.size() || j < 0 || j >= b.size()) {
+            return false;
+        }
+        return true;
     }
 
 
