@@ -146,6 +146,7 @@ public class Model extends Observable {
                 SingleColumnMove(i);
             }
 
+        changed = true;
 
         checkGameOver();
         if (changed) {
@@ -172,9 +173,9 @@ public class Model extends Observable {
             return false;
         } else {
             if (board.tile(i, 3) == null) {
-                board.move(i, 2, t2);
+                board.move(i, 3, t2);
             } else if (board.tile(i, 2).value() == board.tile(i, 3).value() ) {
-                board.move(i, 2, t2);
+                board.move(i, 3, t2);
                 AlreadyMergedOnce = true;
             } else {
                 return false;
