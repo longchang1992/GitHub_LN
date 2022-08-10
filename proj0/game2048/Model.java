@@ -191,9 +191,11 @@ public class Model extends Observable {
             } else if (board.tile(i, 2) != null && board.tile (i, 1).value() == board.tile(i, 2).value()) {
                 board.move(i, 2, t1);
                 AlreadyMergedOnce = true;
-            } else if (board.tile(i, 3) != null && board.tile(i, 3).value() == board.tile(i, 1).value() && !AlreadyMergedOnce) {
+            } else if (board.tile(i, 3) != null && board.tile(i, 2) == null && board.tile(i, 3).value() == board.tile(i, 1).value() && !AlreadyMergedOnce) {
                 board.move (i, 3, t1);
                 AlreadyMergedOnce = true;
+            } else if (board.tile(i, 3) != null && board.tile(i, 2) == null && board.tile(i, 3).value() != board.tile(i, 1).value()) {
+                board.move(i, 2, t1);
             }
         }
         /** for row 0 */
@@ -207,6 +209,9 @@ public class Model extends Observable {
                 board.move(i, 1, t0);
             } else if (board.tile (i,2) != null && board.tile (i, 0).value() == board.tile (i, 2).value()) {
                 board.move(i, 2, t0);
+            }
+            else if (board.tile (i,2) != null && board.tile (i, 0).value() != board.tile (i, 2).value()) {
+                board.move(i, 1, t0);
             } else if (board.tile (i, 3) != null && board.tile (i, 0).value() == board.tile (i, 3).value() && !AlreadyMergedOnce) {
                 board.move(i, 3, t0);
             } else if (board.tile (i, 3) != null && board.tile (i, 0).value() != board.tile (i, 3).value()) {
