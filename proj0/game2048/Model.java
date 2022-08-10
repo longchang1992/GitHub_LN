@@ -146,6 +146,7 @@ public class Model extends Observable {
             for (int j = 2; j >= 0; j = j -1) {
                 SingleColumnMove(i, j);
                 System.out.println(SingleColumnMove(i, j));
+
             }
         }
 
@@ -173,9 +174,7 @@ public class Model extends Observable {
         /** for row 2 */
         if (j == 2) {
             Tile t2 = board.tile(i, 2);
-            if (board.tile(i, 2) == null) {
-                return false;
-            } else {
+            if (board.tile(i, 2) != null) {
                 if (board.tile(i, 3) == null) {
                     board.move(i, 3, t2);
                     return true;
@@ -183,8 +182,6 @@ public class Model extends Observable {
                     board.move(i, 3, t2);
                     AlreadyMergedOnce = true;
                     return true;
-                } else {
-                    return false;
                 }
             }
         }
@@ -192,9 +189,7 @@ public class Model extends Observable {
         /** for row 1 */
         if (j == 1) {
             Tile t1 = board.tile(i, 1);
-            if (board.tile(i, 1) == null) {
-                return false;
-            } else {
+            if (board.tile(i, 1) != null) {
                 if (board.tile(i, 2) == null && board.tile(i, 3) == null) {
                     board.move(i, 3, t1);
                     return true;
@@ -216,9 +211,7 @@ public class Model extends Observable {
         /** for row 0 */
         if (j == 0) {
             Tile t0 = board.tile(i, 0);
-            if (board.tile(i, 0) == null) {
-                return false;
-            } else {
+            if (board.tile(i, 0) != null) {
                 if (board.tile(i, 1) == null && board.tile(i, 2) == null && board.tile(i, 3) == null) {
                     board.move(i, 3, t0);
                     return true;
@@ -241,7 +234,7 @@ public class Model extends Observable {
             }
         }
 
-        return true;
+        return false;
     }
 
 
