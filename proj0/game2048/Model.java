@@ -170,7 +170,8 @@ public class Model extends Observable {
 
     /** Longchang: handle one single column*/
     public boolean SingleColumnMove(int i, int j) {
-        boolean AlreadyMergedOnce = false;
+        boolean AlreadyMergedOnceRow3 = false;
+        boolean AlreadyMergedOnceRow2 = false;
         /** for row 2 */
         if (j == 2) {
             Tile t2 = board.tile(i, 2);
@@ -180,7 +181,7 @@ public class Model extends Observable {
                     return true;
                 } else if (board.tile(i, 2).value() == board.tile(i, 3).value()) {
                     board.move(i, 3, t2);
-                    AlreadyMergedOnce = true;
+                    AlreadyMergedOnceRow3 = true;
                     return true;
                 }
             }
@@ -193,13 +194,13 @@ public class Model extends Observable {
                 if (board.tile(i, 2) == null && board.tile(i, 3) == null) {
                     board.move(i, 3, t1);
                     return true;
-                } else if (board.tile(i, 2) != null && board.tile(i, 1).value() == board.tile(i, 2).value()) {
+                } else if (board.tile(i, 2) != null && board.tile(i, 3) != null && board.tile(i, 1).value() == board.tile(i, 2).value()) {
                     board.move(i, 2, t1);
-                    AlreadyMergedOnce = true;
+                    AlreadyMergedOnceRow2 = true;
                     return true;
-                } else if (board.tile(i, 3) != null && board.tile(i, 2) == null && board.tile(i, 3).value() == board.tile(i, 1).value() && !AlreadyMergedOnce) {
+                } else if (board.tile(i, 3) != null && board.tile(i, 2) == null && board.tile(i, 3).value() == board.tile(i, 1).value() && !AlreadyMergedOnceRow3) {
                     board.move(i, 3, t1);
-                    AlreadyMergedOnce = true;
+                    AlreadyMergedOnceRow3 = true;
                     return true;
                 } else if (board.tile(i, 3) != null && board.tile(i, 2) == null && board.tile(i, 3).value() != board.tile(i, 1).value()) {
                     board.move(i, 2, t1);
@@ -218,13 +219,16 @@ public class Model extends Observable {
                 } else if (board.tile(i, 1) != null && board.tile(i, 0).value() == board.tile(i, 1).value()) {
                     board.move(i, 1, t0);
                     return true;
-                } else if (board.tile(i, 1) == null && board.tile(i, 2) != null && board.tile(i, 0).value() == board.tile(i, 2).value()) {
+                } else if (board.tile(i, 1) == null && board.tile(i, 2) != null && board.tile(i, 0).value() == board.tile(i, 2).value() && !AlreadyMergedOnceRow2) {
                     board.move(i, 2, t0);
+                    return true;
+                } else if (board.tile(i, 1) == null && board.tile(i, 2) != null && board.tile(i, 0).value() == board.tile(i, 2).value() && AlreadyMergedOnceRow2) {
+                    board.move(i, 1, t0);
                     return true;
                 } else if (board.tile(i, 1) == null && board.tile(i, 2) != null && board.tile(i, 0).value() != board.tile(i, 2).value()) {
                     board.move(i, 1, t0);
                     return true;
-                } else if (board.tile(i, 1) == null && board.tile(i, 2) == null && board.tile(i, 3) != null && board.tile(i, 0).value() == board.tile(i, 3).value() && !AlreadyMergedOnce) {
+                } else if (board.tile(i, 1) == null && board.tile(i, 2) == null && board.tile(i, 3) != null && board.tile(i, 0).value() == board.tile(i, 3).value() && !AlreadyMergedOnceRow3) {
                     board.move(i, 3, t0);
                     return true;
                 } else if (board.tile(i, 1) == null && board.tile(i, 2) == null && board.tile(i, 3) != null && board.tile(i, 0).value() != board.tile(i, 3).value()) {
