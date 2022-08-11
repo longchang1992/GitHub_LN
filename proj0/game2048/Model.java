@@ -182,7 +182,7 @@ public class Model extends Observable {
                 if (board.tile(i, 3) == null) {
                     board.move(i, 3, t2);
                     ShouldChange = 1;
-                } else if (board.tile(i, 2).value() == board.tile(i, 3).value()) {
+                } else if (board.tile(i, 3) != null && board.tile(i, 2).value() == board.tile(i, 3).value()) {
                     board.move(i, 3, t2);
                     AlreadyMergedOnceRow3 = true;
                     ShouldChange = 1;
