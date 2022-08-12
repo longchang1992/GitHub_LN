@@ -143,10 +143,9 @@ public class Model extends Observable {
         // changed local variable to true.
         /** Longchang */
         for (int i = 0; i < board.size(); i += 1) {
-
-                System.out.println(SingleColumnMove(i));
-                changed = true;
-
+                if (SingleColumnMove(i)) {
+                    changed = true;
+                }
         }
 
 
@@ -167,8 +166,8 @@ public class Model extends Observable {
     }
 
     /** Longchang: handle one single column*/
-    public int SingleColumnMove(int i) {
-        int ShouldChange = 0;
+    public boolean SingleColumnMove(int i) {
+        boolean ShouldChange = false;
         boolean AlreadyMergedOnceRow3 = false;
         boolean AlreadyMergedOnceRow2 = false;
 
@@ -180,13 +179,13 @@ public class Model extends Observable {
             if (board.tile(i, 2) != null) {
                 if (board.tile(i, 3) == null) {
                     board.move(i, 3, t2);
-                    ShouldChange = 1;
+                    ShouldChange = true;
                 } else if (board.tile(i, 3) != null && board.tile(i, 2).value() == board.tile(i, 3).value()) {
                     score = score + 2*board.tile(i, 3).value();
                     board.move(i, 3, t2);
 
                     AlreadyMergedOnceRow3 = true;
-                    ShouldChange = 1;
+                    ShouldChange = true;
                 }
             }
 
@@ -197,25 +196,25 @@ public class Model extends Observable {
             if (board.tile(i, 1) != null) {
                 if (board.tile(i, 2) == null && board.tile(i, 3) == null) {
                     board.move(i, 3, t1);
-                    ShouldChange = 1;
+                    ShouldChange = true;
                 } else if (board.tile(i, 2) != null && board.tile(i, 3) != null && board.tile(i, 1).value() == board.tile(i, 2).value()) {
                     score = score + 2*board.tile(i, 2).value();
                     board.move(i, 2, t1);
 
                     AlreadyMergedOnceRow2 = true;
-                    ShouldChange = 1;
+                    ShouldChange = true;
                 } else if (board.tile(i, 3) != null && board.tile(i, 2) == null && board.tile(i, 3).value() == board.tile(i, 1).value() && !AlreadyMergedOnceRow3) {
                     score = score + 2*board.tile(i, 3).value();
                     board.move(i, 3, t1);
 
                     AlreadyMergedOnceRow3 = true;
-                    ShouldChange = 1;
+                    ShouldChange = true;
                 } else if (board.tile(i, 3) != null && board.tile(i, 2) == null && board.tile(i, 3).value() == board.tile(i, 1).value() && AlreadyMergedOnceRow3) {
                     board.move(i, 2, t1);
-                    ShouldChange = 1;
+                    ShouldChange = true;
                 } else if (board.tile(i, 3) != null && board.tile(i, 2) == null && board.tile(i, 3).value() != board.tile(i, 1).value()) {
                     board.move(i, 2, t1);
-                    ShouldChange = 1;
+                    ShouldChange = true;
                 }
             }
 
@@ -226,34 +225,34 @@ public class Model extends Observable {
             if (board.tile(i, 0) != null) {
                 if (board.tile(i, 1) == null && board.tile(i, 2) == null && board.tile(i, 3) == null) {
                     board.move(i, 3, t0);
-                    ShouldChange = 1;
+                    ShouldChange = true;
                 } else if (board.tile(i, 1) != null && board.tile(i, 0).value() == board.tile(i, 1).value()) {
                     score = score + 2*board.tile(i, 1).value();
                     board.move(i, 1, t0);
 
-                    ShouldChange = 1;
+                    ShouldChange = true;
                 } else if (board.tile(i, 1) == null && board.tile(i, 2) != null && board.tile(i, 0).value() == board.tile(i, 2).value() && !AlreadyMergedOnceRow2) {
                     score = score + 2*board.tile(i, 2).value();
                     board.move(i, 2, t0);
 
-                    ShouldChange = 1;
+                    ShouldChange = true;
                 } else if (board.tile(i, 1) == null && board.tile(i, 2) != null && board.tile(i, 0).value() == board.tile(i, 2).value() && AlreadyMergedOnceRow2) {
                     board.move(i, 1, t0);
-                    ShouldChange = 1;
+                    ShouldChange = true;
                 } else if (board.tile(i, 1) == null && board.tile(i, 2) != null && board.tile(i, 0).value() != board.tile(i, 2).value()) {
                     board.move(i, 1, t0);
-                    ShouldChange = 1;
+                    ShouldChange = true;
                 } else if (board.tile(i, 1) == null && board.tile(i, 2) == null && board.tile(i, 3) != null && board.tile(i, 0).value() == board.tile(i, 3).value() && !AlreadyMergedOnceRow3) {
                     score = score + 2*board.tile(i, 3).value();
                     board.move(i, 3, t0);
 
-                    ShouldChange = 1;
+                    ShouldChange = true;
                 } else if (board.tile(i, 1) == null && board.tile(i, 2) == null && board.tile(i, 3) != null && board.tile(i, 0).value() == board.tile(i, 3).value() && AlreadyMergedOnceRow3) {
                     board.move(i, 2, t0);
-                    ShouldChange = 1;
+                    ShouldChange = true;
                 } else if (board.tile(i, 1) == null && board.tile(i, 2) == null && board.tile(i, 3) != null && board.tile(i, 0).value() != board.tile(i, 3).value()) {
                     board.move(i, 2, t0);
-                    ShouldChange = 1;
+                    ShouldChange = true;
                 }
             }
         return ShouldChange;
