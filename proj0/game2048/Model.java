@@ -213,6 +213,9 @@ public class Model extends Observable {
                 } else if (board.tile(i, 3) != null && board.tile(i, 2) == null && board.tile(i, 3).value() == board.tile(i, 1).value() && AlreadyMergedOnceRow3) {
                     board.move(i, 2, t1);
                     ShouldChange = 1;
+                } else if (board.tile(i, 3) != null && board.tile(i, 2) == null && board.tile(i, 3).value() != board.tile(i, 1).value()) {
+                    board.move(i, 2, t1);
+                    ShouldChange = 1;
                 }
             }
 
@@ -314,25 +317,25 @@ public class Model extends Observable {
                 }
 
                 if (ValidIndex(b, i-1, j)) {
-                    if (b.tile(i, j).value() == b.tile(i-1, j).value()) {
+                    if (b.tile(i, j) != null && b.tile(i-1, j) != null && b.tile(i, j).value() == b.tile(i-1, j).value()) {
                         return true;
                     }
                 }
 
                 if (ValidIndex(b, i+1, j)) {
-                    if (b.tile(i, j).value() == b.tile(i+1, j).value()) {
+                    if (b.tile(i, j) != null && b.tile(i+1, j) != null &&b.tile(i, j).value() == b.tile(i+1, j).value()) {
                         return true;
                     }
                 }
 
                 if (ValidIndex(b, i, j-1)) {
-                    if (b.tile(i, j).value() == b.tile(i, j-1).value()) {
+                    if (b.tile(i, j) != null && b.tile(i, j-1) != null &&b.tile(i, j).value() == b.tile(i, j-1).value()) {
                         return true;
                     }
                 }
 
                 if (ValidIndex(b, i, j+1)) {
-                    if (b.tile(i, j).value() == b.tile(i, j+1).value()) {
+                    if (b.tile(i, j) != null && b.tile(i, j+1) != null && b.tile(i, j).value() == b.tile(i, j+1).value()) {
                         return true;
                     }
                 }
