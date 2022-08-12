@@ -145,8 +145,7 @@ public class Model extends Observable {
         for (int i = 0; i < board.size(); i += 1) {
 
                 System.out.println(SingleColumnMove(i));
-
-                    changed = true;
+                changed = true;
 
         }
 
@@ -183,7 +182,9 @@ public class Model extends Observable {
                     board.move(i, 3, t2);
                     ShouldChange = 1;
                 } else if (board.tile(i, 3) != null && board.tile(i, 2).value() == board.tile(i, 3).value()) {
+                    score = score + 2*board.tile(i, 3).value();
                     board.move(i, 3, t2);
+
                     AlreadyMergedOnceRow3 = true;
                     ShouldChange = 1;
                 }
@@ -198,18 +199,18 @@ public class Model extends Observable {
                     board.move(i, 3, t1);
                     ShouldChange = 1;
                 } else if (board.tile(i, 2) != null && board.tile(i, 3) != null && board.tile(i, 1).value() == board.tile(i, 2).value()) {
+                    score = score + 2*board.tile(i, 2).value();
                     board.move(i, 2, t1);
+
                     AlreadyMergedOnceRow2 = true;
                     ShouldChange = 1;
                 } else if (board.tile(i, 3) != null && board.tile(i, 2) == null && board.tile(i, 3).value() == board.tile(i, 1).value() && !AlreadyMergedOnceRow3) {
+                    score = score + 2*board.tile(i, 3).value();
                     board.move(i, 3, t1);
+
                     AlreadyMergedOnceRow3 = true;
                     ShouldChange = 1;
                 } else if (board.tile(i, 3) != null && board.tile(i, 2) == null && board.tile(i, 3).value() == board.tile(i, 1).value() && AlreadyMergedOnceRow3) {
-                    board.move(i, 2, t1);
-                    ShouldChange = 1;
-                }
-                else if (board.tile(i, 3) != null && board.tile(i, 2) == null && board.tile(i, 3).value() != board.tile(i, 1).value()) {
                     board.move(i, 2, t1);
                     ShouldChange = 1;
                 }
@@ -224,10 +225,14 @@ public class Model extends Observable {
                     board.move(i, 3, t0);
                     ShouldChange = 1;
                 } else if (board.tile(i, 1) != null && board.tile(i, 0).value() == board.tile(i, 1).value()) {
+                    score = score + 2*board.tile(i, 1).value();
                     board.move(i, 1, t0);
+
                     ShouldChange = 1;
                 } else if (board.tile(i, 1) == null && board.tile(i, 2) != null && board.tile(i, 0).value() == board.tile(i, 2).value() && !AlreadyMergedOnceRow2) {
+                    score = score + 2*board.tile(i, 2).value();
                     board.move(i, 2, t0);
+
                     ShouldChange = 1;
                 } else if (board.tile(i, 1) == null && board.tile(i, 2) != null && board.tile(i, 0).value() == board.tile(i, 2).value() && AlreadyMergedOnceRow2) {
                     board.move(i, 1, t0);
@@ -236,7 +241,9 @@ public class Model extends Observable {
                     board.move(i, 1, t0);
                     ShouldChange = 1;
                 } else if (board.tile(i, 1) == null && board.tile(i, 2) == null && board.tile(i, 3) != null && board.tile(i, 0).value() == board.tile(i, 3).value() && !AlreadyMergedOnceRow3) {
+                    score = score + 2*board.tile(i, 3).value();
                     board.move(i, 3, t0);
+
                     ShouldChange = 1;
                 } else if (board.tile(i, 1) == null && board.tile(i, 2) == null && board.tile(i, 3) != null && board.tile(i, 0).value() == board.tile(i, 3).value() && AlreadyMergedOnceRow3) {
                     board.move(i, 2, t0);
