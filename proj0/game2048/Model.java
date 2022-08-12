@@ -3,6 +3,7 @@ package game2048;
 import java.util.Formatter;
 import java.util.Observable;
 
+/** Congrats Longchang! This is completed!*/
 
 /** The state of a game of 2048.
  *  @author TODO: YOUR NAME HERE
