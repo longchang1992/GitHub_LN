@@ -143,7 +143,16 @@ public class Model extends Observable {
         // changed local variable to true.
         /** Longchang */
         for (int i = 0; i < board.size(); i += 1) {
-                if (SingleColumnMove(i)) {
+                if (side == Side.NORTH && SingleColumnMoveNorth(i)) {
+                    changed = true;
+                }
+                if (side == Side.WEST && SingleColumnMoveWest(i)) {
+                    changed = true;
+                }
+                if (side == Side.SOUTH && SingleColumnMoveSouth(i)) {
+                    changed = true;
+                }
+                if (side == Side.EAST && SingleColumnMoveEast(i)) {
                     changed = true;
                 }
         }
@@ -165,8 +174,8 @@ public class Model extends Observable {
         gameOver = checkGameOver(board);
     }
 
-    /** Longchang: handle one single column*/
-    public boolean SingleColumnMove(int i) {
+    /** Longchang: handle one single column for NORTH*/
+    public boolean SingleColumnMoveNorth(int i) {
         boolean ShouldChange = false;
         boolean AlreadyMergedOnceRow3 = false;
         boolean AlreadyMergedOnceRow2 = false;
@@ -255,6 +264,294 @@ public class Model extends Observable {
                     ShouldChange = true;
                 }
             }
+        return ShouldChange;
+    }
+
+    /** Longchang: handle one single column for WEST*/
+    public boolean SingleColumnMoveWest(int i) {
+        board.setViewingPerspective(Side.WEST);
+
+        boolean ShouldChange = false;
+        boolean AlreadyMergedOnceRow3 = false;
+        boolean AlreadyMergedOnceRow2 = false;
+
+        /** for row 2 */
+
+        Tile t2 = board.tile(i, 2);
+        Tile t1 = board.tile(i, 1);
+        Tile t0 = board.tile(i, 0);
+        if (board.tile(i, 2) != null) {
+            if (board.tile(i, 3) == null) {
+                board.move(i, 3, t2);
+                ShouldChange = true;
+            } else if (board.tile(i, 3) != null && board.tile(i, 2).value() == board.tile(i, 3).value()) {
+                score = score + 2*board.tile(i, 3).value();
+                board.move(i, 3, t2);
+
+                AlreadyMergedOnceRow3 = true;
+                ShouldChange = true;
+            }
+        }
+
+
+        /** for row 1 */
+
+
+        if (board.tile(i, 1) != null) {
+            if (board.tile(i, 2) == null && board.tile(i, 3) == null) {
+                board.move(i, 3, t1);
+                ShouldChange = true;
+            } else if (board.tile(i, 2) != null && board.tile(i, 3) != null && board.tile(i, 1).value() == board.tile(i, 2).value()) {
+                score = score + 2*board.tile(i, 2).value();
+                board.move(i, 2, t1);
+
+                AlreadyMergedOnceRow2 = true;
+                ShouldChange = true;
+            } else if (board.tile(i, 3) != null && board.tile(i, 2) == null && board.tile(i, 3).value() == board.tile(i, 1).value() && !AlreadyMergedOnceRow3) {
+                score = score + 2*board.tile(i, 3).value();
+                board.move(i, 3, t1);
+
+                AlreadyMergedOnceRow3 = true;
+                ShouldChange = true;
+            } else if (board.tile(i, 3) != null && board.tile(i, 2) == null && board.tile(i, 3).value() == board.tile(i, 1).value() && AlreadyMergedOnceRow3) {
+                board.move(i, 2, t1);
+                ShouldChange = true;
+            } else if (board.tile(i, 3) != null && board.tile(i, 2) == null && board.tile(i, 3).value() != board.tile(i, 1).value()) {
+                board.move(i, 2, t1);
+                ShouldChange = true;
+            }
+        }
+
+
+        /** for row 0 */
+
+
+        if (board.tile(i, 0) != null) {
+            if (board.tile(i, 1) == null && board.tile(i, 2) == null && board.tile(i, 3) == null) {
+                board.move(i, 3, t0);
+                ShouldChange = true;
+            } else if (board.tile(i, 1) != null && board.tile(i, 0).value() == board.tile(i, 1).value()) {
+                score = score + 2*board.tile(i, 1).value();
+                board.move(i, 1, t0);
+
+                ShouldChange = true;
+            } else if (board.tile(i, 1) == null && board.tile(i, 2) != null && board.tile(i, 0).value() == board.tile(i, 2).value() && !AlreadyMergedOnceRow2) {
+                score = score + 2*board.tile(i, 2).value();
+                board.move(i, 2, t0);
+
+                ShouldChange = true;
+            } else if (board.tile(i, 1) == null && board.tile(i, 2) != null && board.tile(i, 0).value() == board.tile(i, 2).value() && AlreadyMergedOnceRow2) {
+                board.move(i, 1, t0);
+                ShouldChange = true;
+            } else if (board.tile(i, 1) == null && board.tile(i, 2) != null && board.tile(i, 0).value() != board.tile(i, 2).value()) {
+                board.move(i, 1, t0);
+                ShouldChange = true;
+            } else if (board.tile(i, 1) == null && board.tile(i, 2) == null && board.tile(i, 3) != null && board.tile(i, 0).value() == board.tile(i, 3).value() && !AlreadyMergedOnceRow3) {
+                score = score + 2*board.tile(i, 3).value();
+                board.move(i, 3, t0);
+
+                ShouldChange = true;
+            } else if (board.tile(i, 1) == null && board.tile(i, 2) == null && board.tile(i, 3) != null && board.tile(i, 0).value() == board.tile(i, 3).value() && AlreadyMergedOnceRow3) {
+                board.move(i, 2, t0);
+                ShouldChange = true;
+            } else if (board.tile(i, 1) == null && board.tile(i, 2) == null && board.tile(i, 3) != null && board.tile(i, 0).value() != board.tile(i, 3).value()) {
+                board.move(i, 2, t0);
+                ShouldChange = true;
+            }
+        }
+        board.setViewingPerspective(Side.NORTH);
+        return ShouldChange;
+    }
+
+    /** Longchang: handle one single column for SOUTH*/
+    public boolean SingleColumnMoveSouth(int i) {
+        board.setViewingPerspective(Side.SOUTH);
+
+        boolean ShouldChange = false;
+        boolean AlreadyMergedOnceRow3 = false;
+        boolean AlreadyMergedOnceRow2 = false;
+
+        /** for row 2 */
+
+        Tile t2 = board.tile(i, 2);
+        Tile t1 = board.tile(i, 1);
+        Tile t0 = board.tile(i, 0);
+        if (board.tile(i, 2) != null) {
+            if (board.tile(i, 3) == null) {
+                board.move(i, 3, t2);
+                ShouldChange = true;
+            } else if (board.tile(i, 3) != null && board.tile(i, 2).value() == board.tile(i, 3).value()) {
+                score = score + 2*board.tile(i, 3).value();
+                board.move(i, 3, t2);
+
+                AlreadyMergedOnceRow3 = true;
+                ShouldChange = true;
+            }
+        }
+
+
+        /** for row 1 */
+
+
+        if (board.tile(i, 1) != null) {
+            if (board.tile(i, 2) == null && board.tile(i, 3) == null) {
+                board.move(i, 3, t1);
+                ShouldChange = true;
+            } else if (board.tile(i, 2) != null && board.tile(i, 3) != null && board.tile(i, 1).value() == board.tile(i, 2).value()) {
+                score = score + 2*board.tile(i, 2).value();
+                board.move(i, 2, t1);
+
+                AlreadyMergedOnceRow2 = true;
+                ShouldChange = true;
+            } else if (board.tile(i, 3) != null && board.tile(i, 2) == null && board.tile(i, 3).value() == board.tile(i, 1).value() && !AlreadyMergedOnceRow3) {
+                score = score + 2*board.tile(i, 3).value();
+                board.move(i, 3, t1);
+
+                AlreadyMergedOnceRow3 = true;
+                ShouldChange = true;
+            } else if (board.tile(i, 3) != null && board.tile(i, 2) == null && board.tile(i, 3).value() == board.tile(i, 1).value() && AlreadyMergedOnceRow3) {
+                board.move(i, 2, t1);
+                ShouldChange = true;
+            } else if (board.tile(i, 3) != null && board.tile(i, 2) == null && board.tile(i, 3).value() != board.tile(i, 1).value()) {
+                board.move(i, 2, t1);
+                ShouldChange = true;
+            }
+        }
+
+
+        /** for row 0 */
+
+
+        if (board.tile(i, 0) != null) {
+            if (board.tile(i, 1) == null && board.tile(i, 2) == null && board.tile(i, 3) == null) {
+                board.move(i, 3, t0);
+                ShouldChange = true;
+            } else if (board.tile(i, 1) != null && board.tile(i, 0).value() == board.tile(i, 1).value()) {
+                score = score + 2*board.tile(i, 1).value();
+                board.move(i, 1, t0);
+
+                ShouldChange = true;
+            } else if (board.tile(i, 1) == null && board.tile(i, 2) != null && board.tile(i, 0).value() == board.tile(i, 2).value() && !AlreadyMergedOnceRow2) {
+                score = score + 2*board.tile(i, 2).value();
+                board.move(i, 2, t0);
+
+                ShouldChange = true;
+            } else if (board.tile(i, 1) == null && board.tile(i, 2) != null && board.tile(i, 0).value() == board.tile(i, 2).value() && AlreadyMergedOnceRow2) {
+                board.move(i, 1, t0);
+                ShouldChange = true;
+            } else if (board.tile(i, 1) == null && board.tile(i, 2) != null && board.tile(i, 0).value() != board.tile(i, 2).value()) {
+                board.move(i, 1, t0);
+                ShouldChange = true;
+            } else if (board.tile(i, 1) == null && board.tile(i, 2) == null && board.tile(i, 3) != null && board.tile(i, 0).value() == board.tile(i, 3).value() && !AlreadyMergedOnceRow3) {
+                score = score + 2*board.tile(i, 3).value();
+                board.move(i, 3, t0);
+
+                ShouldChange = true;
+            } else if (board.tile(i, 1) == null && board.tile(i, 2) == null && board.tile(i, 3) != null && board.tile(i, 0).value() == board.tile(i, 3).value() && AlreadyMergedOnceRow3) {
+                board.move(i, 2, t0);
+                ShouldChange = true;
+            } else if (board.tile(i, 1) == null && board.tile(i, 2) == null && board.tile(i, 3) != null && board.tile(i, 0).value() != board.tile(i, 3).value()) {
+                board.move(i, 2, t0);
+                ShouldChange = true;
+            }
+        }
+        board.setViewingPerspective(Side.NORTH);
+        return ShouldChange;
+    }
+
+    /** Longchang: handle one single column for EAST*/
+    public boolean SingleColumnMoveEast(int i) {
+        board.setViewingPerspective(Side.EAST);
+
+        boolean ShouldChange = false;
+        boolean AlreadyMergedOnceRow3 = false;
+        boolean AlreadyMergedOnceRow2 = false;
+
+        /** for row 2 */
+
+        Tile t2 = board.tile(i, 2);
+        Tile t1 = board.tile(i, 1);
+        Tile t0 = board.tile(i, 0);
+        if (board.tile(i, 2) != null) {
+            if (board.tile(i, 3) == null) {
+                board.move(i, 3, t2);
+                ShouldChange = true;
+            } else if (board.tile(i, 3) != null && board.tile(i, 2).value() == board.tile(i, 3).value()) {
+                score = score + 2*board.tile(i, 3).value();
+                board.move(i, 3, t2);
+
+                AlreadyMergedOnceRow3 = true;
+                ShouldChange = true;
+            }
+        }
+
+
+        /** for row 1 */
+
+
+        if (board.tile(i, 1) != null) {
+            if (board.tile(i, 2) == null && board.tile(i, 3) == null) {
+                board.move(i, 3, t1);
+                ShouldChange = true;
+            } else if (board.tile(i, 2) != null && board.tile(i, 3) != null && board.tile(i, 1).value() == board.tile(i, 2).value()) {
+                score = score + 2*board.tile(i, 2).value();
+                board.move(i, 2, t1);
+
+                AlreadyMergedOnceRow2 = true;
+                ShouldChange = true;
+            } else if (board.tile(i, 3) != null && board.tile(i, 2) == null && board.tile(i, 3).value() == board.tile(i, 1).value() && !AlreadyMergedOnceRow3) {
+                score = score + 2*board.tile(i, 3).value();
+                board.move(i, 3, t1);
+
+                AlreadyMergedOnceRow3 = true;
+                ShouldChange = true;
+            } else if (board.tile(i, 3) != null && board.tile(i, 2) == null && board.tile(i, 3).value() == board.tile(i, 1).value() && AlreadyMergedOnceRow3) {
+                board.move(i, 2, t1);
+                ShouldChange = true;
+            } else if (board.tile(i, 3) != null && board.tile(i, 2) == null && board.tile(i, 3).value() != board.tile(i, 1).value()) {
+                board.move(i, 2, t1);
+                ShouldChange = true;
+            }
+        }
+
+
+        /** for row 0 */
+
+
+        if (board.tile(i, 0) != null) {
+            if (board.tile(i, 1) == null && board.tile(i, 2) == null && board.tile(i, 3) == null) {
+                board.move(i, 3, t0);
+                ShouldChange = true;
+            } else if (board.tile(i, 1) != null && board.tile(i, 0).value() == board.tile(i, 1).value()) {
+                score = score + 2*board.tile(i, 1).value();
+                board.move(i, 1, t0);
+
+                ShouldChange = true;
+            } else if (board.tile(i, 1) == null && board.tile(i, 2) != null && board.tile(i, 0).value() == board.tile(i, 2).value() && !AlreadyMergedOnceRow2) {
+                score = score + 2*board.tile(i, 2).value();
+                board.move(i, 2, t0);
+
+                ShouldChange = true;
+            } else if (board.tile(i, 1) == null && board.tile(i, 2) != null && board.tile(i, 0).value() == board.tile(i, 2).value() && AlreadyMergedOnceRow2) {
+                board.move(i, 1, t0);
+                ShouldChange = true;
+            } else if (board.tile(i, 1) == null && board.tile(i, 2) != null && board.tile(i, 0).value() != board.tile(i, 2).value()) {
+                board.move(i, 1, t0);
+                ShouldChange = true;
+            } else if (board.tile(i, 1) == null && board.tile(i, 2) == null && board.tile(i, 3) != null && board.tile(i, 0).value() == board.tile(i, 3).value() && !AlreadyMergedOnceRow3) {
+                score = score + 2*board.tile(i, 3).value();
+                board.move(i, 3, t0);
+
+                ShouldChange = true;
+            } else if (board.tile(i, 1) == null && board.tile(i, 2) == null && board.tile(i, 3) != null && board.tile(i, 0).value() == board.tile(i, 3).value() && AlreadyMergedOnceRow3) {
+                board.move(i, 2, t0);
+                ShouldChange = true;
+            } else if (board.tile(i, 1) == null && board.tile(i, 2) == null && board.tile(i, 3) != null && board.tile(i, 0).value() != board.tile(i, 3).value()) {
+                board.move(i, 2, t0);
+                ShouldChange = true;
+            }
+        }
+        board.setViewingPerspective(Side.NORTH);
         return ShouldChange;
     }
 
