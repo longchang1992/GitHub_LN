@@ -78,6 +78,8 @@ public class IntListExercises {
          if (currElemIsPrime) {
              lst.first *= lst.first;
          }
-         return squarePrimes(lst.rest) || currElemIsPrime;
+         return squarePrimes(lst.rest)||currElemIsPrime;
     }
 }
+
+

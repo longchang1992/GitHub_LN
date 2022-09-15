@@ -143,7 +143,7 @@ public class Model extends Observable {
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
         /** Longchang */
-        for (int i = 0; i < board.size(); i += 1) {
+        for (int i = 0; i < board.size(); i ++) {
                 if (side == Side.NORTH && SingleColumnMoveNorth(i)) {
                     changed = true;
                 }
