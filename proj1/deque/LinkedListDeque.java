@@ -20,6 +20,8 @@ public class LinkedListDeque<T> {
     public  LinkedListDeque() {
         T xxx = null;
         sentinel = new IntNode(null, xxx, null);
+        sentinel.next = sentinel;
+        sentinel.prev = sentinel;
         size = 0;
     }
 
@@ -44,7 +46,7 @@ public class LinkedListDeque<T> {
     }
 
     public T removeFirst() {
-        if (sentinel.next == null) {
+        if (this.isEmpty()) {
             return null;
         }
         else {
@@ -57,7 +59,7 @@ public class LinkedListDeque<T> {
     }
 
     public T removeLast() {
-        if (sentinel.next == null) {
+        if (this.isEmpty()) {
             return null;
         }
         else {
@@ -71,7 +73,7 @@ public class LinkedListDeque<T> {
 
     // returns true if deque is empty, and false otherwise/
     public boolean isEmpty() {
-        if (sentinel.next == null) {
+        if (sentinel.next == sentinel) {
             return true;
         }
         return false;
@@ -82,7 +84,7 @@ public class LinkedListDeque<T> {
     }
 
     public void printDeque() {
-        if (sentinel.next == null) {
+        if (this.isEmpty()) {
             System.out.println("Deque is empty!");
         }
         else {
@@ -96,7 +98,7 @@ public class LinkedListDeque<T> {
     }
 
     public T get(int index) {
-        if (sentinel.next == null) {
+        if (index >= this.size) {
             return null;
         }
         else {
@@ -119,7 +121,7 @@ public class LinkedListDeque<T> {
     }
 
     public T getRecursive(int index) {
-        if (sentinel.next == null) {
+        if (index >= this.size) {
             return null;
         }
         else {
@@ -147,8 +149,9 @@ public class LinkedListDeque<T> {
             a_temp = a_temp.next;
             b_temp = b_temp.next;
         }
+        if(b_temp != null) {
+            return false;
+        }
         return true;
     }
-
-
 }
